@@ -1,9 +1,10 @@
 package Elka.Soib.Network;
 
 public class DirectedEdge {
-    private final int v;
-    private final int w;
-    private final double weight;
+    private int v;
+
+    private int w;
+    private double weight;
 
     public DirectedEdge(int v, int w, double weight)
     {
@@ -16,6 +17,26 @@ public class DirectedEdge {
 
     public int from() {
         return v;
+    }
+
+    public int getV() {
+        return v;
+    }
+
+    public int getW() {
+        return w;
+    }
+
+    public void setV(int v) {
+        this.v = v;
+    }
+
+    public void setW(int w) {
+        this.w = w;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public int to(){

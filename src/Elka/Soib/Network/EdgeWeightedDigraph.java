@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EdgeWeightedDigraph {
+
     private final int V;
+
     private final int squareWidth;
     private int E;
-    private ArrayList<DirectedEdge> paths = new ArrayList<>();
+    public ArrayList<DirectedEdge> paths = new ArrayList<>();
     //private Bag<DirectedEdge>[] adj;
+
 
     public EdgeWeightedDigraph(int V, int squareWidth) {
         this.V = V;
@@ -24,10 +27,21 @@ public class EdgeWeightedDigraph {
         return E;
     }
 
+    public int getV() {
+        return V;
+    }
+
+    public int getE() {
+        return E;
+    }
+
+    public int getSquareWidth() {
+        return squareWidth;
+    }
 
     public void createSOIBGraphXd() {
         Integer pathsCounter = 0;
-        Integer numberOfTop = 1;
+        Integer numberOfTop = 0;
         Integer[][] tabOfTops = new Integer[squareWidth][squareWidth];
         for(Integer i = 0; i < squareWidth; i++){
             for(Integer j = 0; j < squareWidth; j++){
@@ -112,6 +126,9 @@ public class EdgeWeightedDigraph {
                 }
             }
         }
+
+        this.E = pathsCounter;
+
         System.out.println("Liczba krawedzi: " + pathsCounter);
     }
 }
