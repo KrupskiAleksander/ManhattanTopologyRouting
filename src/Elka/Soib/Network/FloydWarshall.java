@@ -6,13 +6,16 @@ import java.util.List;
 public class FloydWarshall {
 
 
-    private Double[][] matrixOfDistances;
-    private String[][] matrixOfRoutes;
+    public Double[][] matrixOfDistances;
+    public String[][] matrixOfRoutes;
+    public ArrayList<DirectedEdge>[][] matrixWithListsOfPaths;
 
     public void findShortestPaths(EdgeWeightedDigraph edgeWeightedDigraph) {
 
         int sizeOfGraph = edgeWeightedDigraph.getV();
         int numberOfPaths = edgeWeightedDigraph.getE();
+
+        ArrayList<DirectedEdge>[][] listOfPaths = new ArrayList[sizeOfGraph][sizeOfGraph];
 
         ArrayList<String> basicPaths = new ArrayList<>();
 
@@ -46,17 +49,49 @@ public class FloydWarshall {
             int v = edgeWeightedDigraph.paths.get(i).getV();
             int w = edgeWeightedDigraph.paths.get(i).getW();
             String threw = Integer.toString(v) +"-"+ Integer.toString(w);
+
+            DirectedEdge directedEdge = new DirectedEdge(v,w,1.0);
+
+            listOfPaths[v][w] = new ArrayList<>();
+            listOfPaths[v][w].add(directedEdge);
+
             routeDiscription[v][w] = threw;
         }
 
         for (int k = 0; k < sizeOfGraph; k++) {
             for (int i = 0; i < sizeOfGraph; i++) {
                 for (int j = 0; j < sizeOfGraph; j++) {
-                    if(distance[i][j] > distance[i][k] + distance[k][j]) {
-                        String threw = routeDiscription[i][k] + ":" + routeDiscription[k][j];
-                        distance[i][j] = distance[i][k] + distance[k][j];
+                    if (i != j) {
+                        if (distance[i][j] > distance[i][k] + distance[k][j]) {
 
-                        routeDiscription[i][j] = threw;
+                            ArrayList<DirectedEdge> pathItoK = new ArrayList<>();
+                            ArrayList<DirectedEdge> pathKtoJ = new ArrayList<>();
+
+                            for (int l = 0; l < listOfPaths[i][k].size(); l++) {
+                                pathItoK.add(listOfPaths[i][k].get(l));
+                            }
+                            for (int l = 0; l < listOfPaths[k][j].size(); l++) {
+                                pathKtoJ.add(listOfPaths[k][j].get(l));
+                            }
+
+                            for (int l = 0; l < pathKtoJ.size(); l++) {
+                                //System.out.println(i + "," + j + "," + k);
+                                pathItoK.add(pathKtoJ.get(l));
+
+                            }
+//
+                            listOfPaths[i][j] = new ArrayList<>();
+//
+                            listOfPaths[i][j] = pathItoK;
+
+                            System.out.println("Route from: " + i + " to " + j + " threw: " + pathItoK.toString() + " and k = " + k);
+
+
+                            String threw = routeDiscription[i][k] + ":" + routeDiscription[k][j];
+                            distance[i][j] = distance[i][k] + distance[k][j];
+
+                            routeDiscription[i][j] = threw;
+                        }
                     }
                 }
             }
@@ -65,5 +100,6 @@ public class FloydWarshall {
 
         matrixOfDistances = distance;
         matrixOfRoutes = routeDiscription;
+        matrixWithListsOfPaths = listOfPaths;
     }
 }
