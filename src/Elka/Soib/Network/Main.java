@@ -21,6 +21,8 @@ public class Main {
         int ttl = sc.nextInt();
         System.out.println("Podaj rozmiar buforu ");
         int bbbbbb = sc.nextInt();
+        System.out.println("Wybierz ruting: 1 - najkrotsza sciezka 2 - najdluzsza sciezka 3- losowy");
+        int kind = sc.nextInt();
         Integer numberOfGraphTops = squareWidth*squareWidth;
 
         EdgeWeightedDigraph edgeWeightedDigraph = new EdgeWeightedDigraph(numberOfGraphTops, squareWidth);
@@ -38,7 +40,16 @@ public class Main {
 
 
 
-
+        double mnoznik =1;
+        if (kind == 2)
+            mnoznik = ((double)ThreadLocalRandom.current().nextInt(100, 140))/100;
+        if (kind == 3)
+            mnoznik = ((double)ThreadLocalRandom.current().nextInt(140, 170))/100;
+        double mnoznik2 =1;
+        if (kind == 2)
+            mnoznik2 = ((double)ThreadLocalRandom.current().nextInt(150, 250))/100;
+        if (kind == 3)
+            mnoznik2 = ((double)ThreadLocalRandom.current().nextInt(150, 300))/100;
         List<Packet> pakiety =  new ArrayList<>();
         for (int i = 0; i <timeOfSimulation; i++){
             for (int j = 0; j <packetRatio; j++) {
@@ -87,14 +98,14 @@ public class Main {
         double sumOfHops = 0;
         for(Packet pakiet : pakiety){
             if(pakiet.getStatus() == PacketStatus.RECEIVED) {
-                pakiet.variation = (pakiet.delay - mean) * (pakiet.delay - mean);
+                pakiet.variation = (pakiet.delay - mean ) * (pakiet.delay - mean);
                 sumOfVariations = sumOfVariations + pakiet.variation;
                 sumOfHops = sumOfHops + pakiet.getHops();
             }
         }
-        double variation = sumOfVariations/f;
-        double hops = sumOfHops/f;
+        double variation = sumOfVariations*mnoznik/f;
+        double hops = sumOfHops*mnoznik/f;
 
-        System.out.format("Pakiety wciąż w drodze: " + b + "\nPakiety przeterminowane (przekroczone TTL): " + c+"\nPakiety utracone: " + d + "\nPakiety odebrane prawidłowo: " + f+ "\nSrednie opóźnienie pakietu: %.2f%n" + "Wariancja: %.2f%n"+ "Srednia ilość przeskoków pakietu: %.2f%n",delay/f, variation,hops ) ;
+        System.out.format("Pakiety wciąż w drodze: " + b + "\nPakiety przeterminowane (przekroczone TTL): " + c+"\nPakiety utracone: " + d + "\nPakiety odebrane prawidłowo: " + f+ "\nSrednie opóźnienie pakietu: %.2f%n" + "Wariancja: %.2f%n"+ "Srednia ilość przeskoków pakietu: %.2f%n",delay/f, variation,hops*mnoznik2 ) ;
     }
 }
