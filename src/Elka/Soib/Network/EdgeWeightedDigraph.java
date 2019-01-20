@@ -60,7 +60,7 @@ public class EdgeWeightedDigraph {
                     paths.add(directedEdge);
                     pathsCounter++;
 
-                    System.out.println("From: " + from + " To: " + to);
+                    //System.out.println("From: " + from + " To: " + to);
                 } else if ((j+1) <= (squareWidth - 1)) {
                     Integer from = tabOfTops[i][j+1];
                     Integer to = tabOfTops[i][j];
@@ -68,7 +68,7 @@ public class EdgeWeightedDigraph {
                     paths.add(directedEdge);
                     pathsCounter++;
 
-                    System.out.println("From: " + from + " To: " + to);
+                   // System.out.println("From: " + from + " To: " + to);
                 } else {
                     if(i%2 == 0){
                         Integer from = tabOfTops[i][squareWidth - 1];
@@ -77,7 +77,7 @@ public class EdgeWeightedDigraph {
                         paths.add(directedEdge);
                         pathsCounter++;
 
-                        System.out.println("From: " + from + " To: " + to);
+                        //System.out.println("From: " + from + " To: " + to);
                     } else {
                         Integer from = tabOfTops[i][0];
                         Integer to = tabOfTops[i][squareWidth - 1];
@@ -85,7 +85,7 @@ public class EdgeWeightedDigraph {
                         paths.add(directedEdge);
                         pathsCounter++;
 
-                        System.out.println("From: " + from + " To: " + to);
+                    //    System.out.println("From: " + from + " To: " + to);
                     }
                 }
 
@@ -96,7 +96,7 @@ public class EdgeWeightedDigraph {
                     paths.add(directedEdge);
                     pathsCounter++;
 
-                    System.out.println("From: " + from + " To: " + to);
+                   // System.out.println("From: " + from + " To: " + to);
                 } else if ((i + 1) <= (squareWidth - 1)) {
                     Integer from = tabOfTops[i][j];
                     Integer to = tabOfTops[i + 1][j];
@@ -104,7 +104,7 @@ public class EdgeWeightedDigraph {
                     paths.add(directedEdge);
                     pathsCounter++;
 
-                    System.out.println("From: " + from + " To: " + to);
+                    //System.out.println("From: " + from + " To: " + to);
                 } else {
                     if(j%2 == 0){
                         Integer from = tabOfTops[0][j];
@@ -113,7 +113,7 @@ public class EdgeWeightedDigraph {
                         paths.add(directedEdge);
                         pathsCounter++;
 
-                        System.out.println("From: " + from + " To: " + to);
+                       // System.out.println("From: " + from + " To: " + to);
                     } else {
                         Integer from = tabOfTops[squareWidth - 1][j];
                         Integer to = tabOfTops[0][j];
@@ -121,7 +121,7 @@ public class EdgeWeightedDigraph {
                         paths.add(directedEdge);
                         pathsCounter++;
 
-                        System.out.println("From: " + from + " To: " + to);
+                        //System.out.println("From: " + from + " To: " + to);
                     }
                 }
             }
@@ -129,6 +129,6 @@ public class EdgeWeightedDigraph {
 
         this.E = pathsCounter;
 
-        System.out.println("Liczba krawedzi: " + pathsCounter);
+       // System.out.println("Liczba krawedzi: " + pathsCounter);
     }
 }

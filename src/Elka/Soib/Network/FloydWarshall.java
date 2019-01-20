@@ -84,7 +84,7 @@ public class FloydWarshall {
 //
                             listOfPaths[i][j] = pathItoK;
 
-                            System.out.println("Route from: " + i + " to " + j + " threw: " + pathItoK.toString() + " and k = " + k);
+                           // System.out.println("Route from: " + i + " to " + j + " threw: " + pathItoK.toString() + " and k = " + k);
 
 
                             String threw = routeDiscription[i][k] + ":" + routeDiscription[k][j];

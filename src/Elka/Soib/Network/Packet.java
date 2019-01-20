@@ -12,6 +12,7 @@ public class Packet {
     public int delay;
     public double variation;
     public int hops;
+    public int stoppedTime;
     private List<Integer> route;
     public static Buffer buffers;
 
@@ -20,6 +21,7 @@ public class Packet {
         timestamp = 1;
         delay = 0;
         variation = 0;
+        stoppedTime = 0;
         this.startNode = startNode;
         this.finalNode = finalNode;
     }
@@ -34,16 +36,13 @@ public class Packet {
         status = PacketStatus.SENT;
     }
     void traverse(){
-        System.out.println(timestamp + "   " + status + "    " + route.get(timestamp) + "   " + finalNode);
+        //System.out.println(timestamp + "   " + status + "    " + route.get(timestamp) + "   " + finalNode);
 
         if (timestamp != 0 && status == PacketStatus.SENT){
             if(timestamp!=1)
                 buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))-1);
             if (route.get(timestamp)== finalNode) {
-                delay = timestamp - route.size() - 1;
-                timestamp = 0;
                 status = PacketStatus.RECEIVED;
-
             }
             if(timestamp >= timeToLeave)
                 status = PacketStatus.EXPIRED;
@@ -51,8 +50,10 @@ public class Packet {
                 status = PacketStatus.LOST;
             if(timestamp!=0)
                 timestamp++;
-            if(status == PacketStatus.SENT)
-                buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))+1);
+            if(status == PacketStatus.SENT) {
+                delay = delay + buffers.buffers.get(route.get(timestamp));
+                buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp)) + 1);
+            }
         }
     }
     public int getHops(){
