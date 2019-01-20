@@ -6,10 +6,11 @@ import java.util.List;
 public class Packet {
     private int startNode;
     private int finalNode;
-    private static int timeToLeave;
+    public static int timeToLeave;
     private PacketStatus status;
     private int timestamp;
     private List<Integer> route;
+    public static Buffer buffers;
 
     public Packet(int startNode, int finalNode)    {
         status = PacketStatus.NEW;
@@ -29,14 +30,22 @@ public class Packet {
     }
     void traverse(){
         System.out.println(timestamp + "   " + status + "    " + route.get(timestamp) + "   " + finalNode);
+
         if (timestamp != 0 && status == PacketStatus.SENT){
+            if(timestamp!=1)
+                buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))-1);
             if (route.get(timestamp)== finalNode) {
                 timestamp = 0;
                 status = PacketStatus.RECEIVED;
             }
             if(timestamp >= timeToLeave)
                 status = PacketStatus.EXPIRED;
-            timestamp++;
+            if(buffers.buffers.get(route.get(timestamp)) >=  Buffer.bufferSize   )
+                status = PacketStatus.LOST;
+            if(timestamp!=0)
+                timestamp++;
+            if(status == PacketStatus.SENT)
+                buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))+1);
         }
     }
 
