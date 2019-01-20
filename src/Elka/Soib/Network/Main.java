@@ -25,7 +25,7 @@ public class Main {
 //        Packet packet = new Packet(23,22);
           Packet.timeToLeave=20;
           Packet.buffers = new Buffer(squareWidth * squareWidth);
-          Buffer.bufferSize = 20;
+          Buffer.bufferSize = 6;
 //        packet.generateRoute(floydWarshall);
 
 
@@ -82,6 +82,8 @@ public class Main {
         int d = 0;
         int e = 0;
         int f = 0;
+        int delay = 0;
+        double mean = 0;
         for(Packet pakiet : pakiety){
             if(pakiet.getStatus() == PacketStatus.SENT)
                 b++;
@@ -91,9 +93,22 @@ public class Main {
                 d++;
             if(pakiet.getStatus() == PacketStatus.NEW)
                 e++;
-            if(pakiet.getStatus() == PacketStatus.RECEIVED)
+            if(pakiet.getStatus() == PacketStatus.RECEIVED) {
                 f++;
+                delay = delay + pakiet.delay;
+            }
         }
-        System.out.println("SENT: "+ b + "EXPIRED: "+ c+"LOST: "+ d+"NEW: "+ e+ "RECEIVED: "+ f);
+        mean = delay/f;
+        double sumOfVariations= 0;
+        double sumOfHops = 0;
+        for(Packet pakiet : pakiety){
+            pakiet.variation = (pakiet.delay-mean)*(pakiet.delay-mean);
+            sumOfVariations = sumOfVariations + pakiet.variation;
+            sumOfHops = sumOfHops + pakiet.getHops();
+        }
+        double variation = sumOfVariations/f;
+        double hops = sumOfHops/f;
+
+        System.out.println("SENT: " + b + "EXPIRED: " + c+"LOST: " + d+"NEW: " + e+ "RECEIVED: " + f+ " sum of delays" + delay+ " wariancja" + variation + " mean hops"  + hops);
     }
 }
