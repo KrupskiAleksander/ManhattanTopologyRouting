@@ -18,6 +18,7 @@ public class Main {
         FloydWarshall floydWarshall = new FloydWarshall();
 
         floydWarshall.findShortestPaths(edgeWeightedDigraph);
+        floydWarshall.findLongestPaths(edgeWeightedDigraph);
 
 //        Packet packet = new Packet(23,22);
           Packet.timeToLeave=3;
