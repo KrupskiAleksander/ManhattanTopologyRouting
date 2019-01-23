@@ -9,12 +9,17 @@ public class Packet {
     public static int timeToLeave;
     private PacketStatus status;
     private int timestamp;
+    public int delay;
+    public double variation;
+    public int hops;
     private List<Integer> route;
     public static Buffer buffers;
 
     public Packet(int startNode, int finalNode)    {
         status = PacketStatus.NEW;
         timestamp = 1;
+        delay = 0;
+        variation = 0;
         this.startNode = startNode;
         this.finalNode = finalNode;
     }
@@ -35,8 +40,10 @@ public class Packet {
             if(timestamp!=1)
                 buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))-1);
             if (route.get(timestamp)== finalNode) {
+                delay = timestamp - route.size() - 1;
                 timestamp = 0;
                 status = PacketStatus.RECEIVED;
+
             }
             if(timestamp >= timeToLeave)
                 status = PacketStatus.EXPIRED;
@@ -47,6 +54,9 @@ public class Packet {
             if(status == PacketStatus.SENT)
                 buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))+1);
         }
+    }
+    public int getHops(){
+        return route.size();
     }
 
     public int getStartNode() {
