@@ -32,6 +32,7 @@ public class Main {
         FloydWarshall floydWarshall = new FloydWarshall();
 
         floydWarshall.findShortestPaths(edgeWeightedDigraph);
+        floydWarshall.findLongestPaths(edgeWeightedDigraph);
 
           Packet.timeToLeave=ttl;
           Packet.buffers = new Buffer(squareWidth * squareWidth);
@@ -40,25 +41,20 @@ public class Main {
 
 
 
-        double mnoznik =1;
-        if (kind == 2)
-            mnoznik = ((double)ThreadLocalRandom.current().nextInt(100, 140))/100;
-        if (kind == 3)
-            mnoznik = ((double)ThreadLocalRandom.current().nextInt(140, 170))/100;
-        double mnoznik2 =1;
-        if (kind == 2)
-            mnoznik2 = ((double)ThreadLocalRandom.current().nextInt(150, 250))/100;
-        if (kind == 3)
-            mnoznik2 = ((double)ThreadLocalRandom.current().nextInt(150, 300))/100;
+
         List<Packet> pakiety =  new ArrayList<>();
         for (int i = 0; i <timeOfSimulation; i++){
             for (int j = 0; j <packetRatio; j++) {
                 int random1 = ThreadLocalRandom.current().nextInt(0, (squareWidth * squareWidth));
                 int random2 = ThreadLocalRandom.current().nextInt(0, (squareWidth * squareWidth));
+                int random3 = ThreadLocalRandom.current().nextInt(0, (squareWidth * squareWidth));
                 while  (random2 == random1){
                     random2 = ThreadLocalRandom.current().nextInt(0, (squareWidth * squareWidth));
                 }
-                Packet pakiecik = new Packet(random1, random2);
+                while  (random3 == random1 || random3 == random2){
+                    random3 = ThreadLocalRandom.current().nextInt(0, (squareWidth * squareWidth));
+                }
+                Packet pakiecik = new Packet(random1, random2, random3, kind);
 
                 pakiecik.generateRoute(floydWarshall);
                 pakiecik.send();
@@ -103,9 +99,9 @@ public class Main {
                 sumOfHops = sumOfHops + pakiet.getHops();
             }
         }
-        double variation = sumOfVariations*mnoznik/f;
-        double hops = sumOfHops*mnoznik/f;
+        double variation = sumOfVariations/f;
+        double hops = sumOfHops/f;
 
-        System.out.format("Pakiety wciąż w drodze: " + b + "\nPakiety przeterminowane (przekroczone TTL): " + c+"\nPakiety utracone: " + d + "\nPakiety odebrane prawidłowo: " + f+ "\nSrednie opóźnienie pakietu: %.2f%n" + "Wariancja: %.2f%n"+ "Srednia ilość przeskoków pakietu: %.2f%n",delay/f, variation,hops*mnoznik2 ) ;
+        System.out.format("Pakiety wciąż w drodze: " + b + "\nPakiety przeterminowane (przekroczone TTL): " + c+"\nPakiety utracone: " + d + "\nPakiety odebrane prawidłowo: " + f+ "\nSrednie opóźnienie pakietu: %.2f%n" + "Wariancja: %.2f%n"+ "Srednia ilość przeskoków pakietu: %.2f%n",delay/f, variation,hops) ;
     }
 }

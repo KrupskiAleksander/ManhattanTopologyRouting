@@ -15,21 +15,39 @@ public class Packet {
     public int stoppedTime;
     private List<Integer> route;
     public static Buffer buffers;
+    public int randomNumber;
+    int kind;
+    List<Integer> randomPath;
+    List<Integer> pathLongest;
 
-    public Packet(int startNode, int finalNode)    {
+
+    public Packet(int startNode, int finalNode, int randomNumber, int kind)    {
         status = PacketStatus.NEW;
         timestamp = 1;
         delay = 0;
         variation = 0;
         stoppedTime = 0;
+        this.kind = kind;
+        this.randomNumber = randomNumber;
         this.startNode = startNode;
         this.finalNode = finalNode;
     }
     public void generateRoute(FloydWarshall floydWarshallResult){
         List<Integer> path = new ArrayList<Integer>();
+        randomPath  = new ArrayList<Integer>();
+        pathLongest  = new ArrayList<Integer>();
         path.add(startNode);
         floydWarshallResult.matrixWithListsOfPaths[startNode][finalNode].forEach((n) -> path.add(n.getW()));
-        this.route = path;
+        //floydWarshallResult.matrixWithListsOfLongestPaths[startNode][finalNode].forEach((n) -> pathLongest.add(n.getW()));
+        floydWarshallResult.matrixWithListsOfPaths[startNode][randomNumber].forEach((n) -> randomPath.add(n.getW()));
+        floydWarshallResult.matrixWithListsOfPaths[randomNumber][finalNode].forEach((n) -> randomPath.add(n.getW()));
+        if (kind ==1)
+            this.route = path;
+        else if (kind ==2)
+            this.route = pathLongest;
+        else if (kind ==3)
+            this.route = randomPath;
+
     }
 
     void send(){
@@ -37,7 +55,6 @@ public class Packet {
     }
     void traverse(){
         //System.out.println(timestamp + "   " + status + "    " + route.get(timestamp) + "   " + finalNode);
-
         if (timestamp != 0 && status == PacketStatus.SENT){
             if(timestamp!=1)
                 buffers.buffers.set(route.get(timestamp), buffers.buffers.get(route.get(timestamp))-1);
