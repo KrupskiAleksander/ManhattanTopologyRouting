@@ -13,11 +13,11 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Integer squareWidth = sc.nextInt();
        // Integer squareWidth =15;
-        System.out.println("śrędnią ilość pakietów na sekundę: ");
+        System.out.println("Srednią ilosc pakietow na sekunde: ");
         int packetRatio = sc.nextInt();;
-        System.out.println("Podaj czas działania symulowanej sieci: ");
+        System.out.println("Podaj czas dzialania symulowanej sieci: ");
         int timeOfSimulation = sc.nextInt();
-        System.out.println("Podaj czas życia pakietów ");
+        System.out.println("Podaj czas zycia pakietow ");
         int ttl = sc.nextInt();
         System.out.println("Podaj rozmiar buforu ");
         int bbbbbb = sc.nextInt();
