@@ -38,7 +38,7 @@ public class Packet {
         pathLongest  = new ArrayList<Integer>();
         path.add(startNode);
         floydWarshallResult.matrixWithListsOfPaths[startNode][finalNode].forEach((n) -> path.add(n.getW()));
-        //floydWarshallResult.matrixWithListsOfLongestPaths[startNode][finalNode].forEach((n) -> pathLongest.add(n.getW()));
+        floydWarshallResult.matrixWithListsOfLongestPaths[startNode][finalNode].forEach((n) -> pathLongest.add(n.getW()));
         floydWarshallResult.matrixWithListsOfPaths[startNode][randomNumber].forEach((n) -> randomPath.add(n.getW()));
         floydWarshallResult.matrixWithListsOfPaths[randomNumber][finalNode].forEach((n) -> randomPath.add(n.getW()));
         if (kind ==1)
